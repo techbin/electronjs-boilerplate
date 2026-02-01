@@ -1,43 +1,51 @@
-React + Vite + Electron (Windows .exe)
+# React + Vite + Electron (Windows .exe)
 
-This project packages a React (Vite) application into a Windows .exe using Electron and electron-builder.
+## This project packages a React (Vite) application into a Windows .exe using Electron and electron-builder.
 
-Prerequisites
+### Prerequisites
 
+```
 Node.js 18+
 
 npm
 
 Windows OS (for .exe build)
+```
 
-1. Create React + Vite project
+### 1. Create React + Vite project
+
+```
 npm create vite@latest electron-react
 cd electron-react
 npm install
+```
 
+### Choose:
 
-Choose:
-
+```
 Framework: React
-
 Variant: TypeScript
+```
 
-2. Install Electron dependencies
-npm install --save-dev electron electron-builder concurrently wait-on
+### 2. Install Electron dependencies
 
-3. Rename Vite config
+``` npm install --save-dev electron electron-builder concurrently wait-on ```
 
-Rename the Vite config file to avoid ESM/CommonJS conflicts:
+### 3. Rename Vite config
 
+#### Rename the Vite config file to avoid ESM/CommonJS conflicts:
+```
 vite.config.ts → vite.config.mjs
+```
 
-4. Create Electron entry
+### 4. Create Electron entry
 
-Create a new folder in the project root:
-
+#### Create a new folder in the project root:
+```
 electron/
   └── main.ts
-
+```
+```
 electron/main.ts
 import { app, BrowserWindow } from 'electron'
 import path from 'path'
@@ -55,9 +63,10 @@ function createWindow() {
 }
 
 app.whenReady().then(createWindow)
+```
 
-5. Add Electron TypeScript config
-
+#### 5. Add Electron TypeScript config
+```
 Create tsconfig.electron.json in the root directory:
 
 {
@@ -71,8 +80,10 @@ Create tsconfig.electron.json in the root directory:
   },
   "include": ["electron/**/*.ts"]
 }
+```
 
-6. Update package.json
+#### 6. Update package.json
+```
 Add main entry & build config
 {
   "main": "electron-dist/main.js",
@@ -91,7 +102,9 @@ Add main entry & build config
     }
   }
 }
+```
 
+```
 Add scripts
 "scripts": {
   "dev": "vite",
@@ -101,21 +114,25 @@ Add scripts
   "dev:electron": "concurrently \"npm run dev\" \"npm run electron\"",
   "dist": "npm run build && npm run build:electron && electron-builder"
 }
+```
 
-7. Clean install (recommended)
+#### 7. Clean install (recommended)
+```
 rm -rf dist electron-dist release node_modules package-lock.json
 npm install
+```
 
-8. Build Windows executable
-npm run dist
+#### 8. Build Windows executable
+``` npm run dist ```
 
 
-The Windows .exe installer will be generated in:
-
+### The Windows .exe installer will be generated in:
+```
 release/
+```
 
-Build Flow Summary
-
+### Build Flow Summary
+```
 Vite builds React app → dist/
 
 TypeScript compiles Electron → electron-dist/
@@ -123,7 +140,7 @@ TypeScript compiles Electron → electron-dist/
 Electron loads React HTML
 
 electron-builder packages everything → Windows .exe
-
+```
 
 =====================================================================================================
 
